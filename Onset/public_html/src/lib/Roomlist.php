@@ -10,7 +10,7 @@ class Roomlist{
      (想定としては、roomlistをjson_decodeしたものを直接渡す)
     */
     private $rooms;
-    public function __construct(stdClass $roomlist){
+    public function __construct(\stdClass $roomlist){
         $this->rooms = $roomlist;
     }
 

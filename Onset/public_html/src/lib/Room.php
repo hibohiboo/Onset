@@ -124,7 +124,7 @@ class Room{
      チャットを書き込む
      引数にstdClassを受け付けるけど、後々専用クラスを作る可能性あり
     */
-    public function putChatlog(stdClass $chat){
+    public function putChatlog(\stdClass $chat){
         $chatLog = json_decode(file_get_contents($this->dir.'/log.json'));
         $chatLog[] = $chat;
         return file_put_contents($this->dir.'/log.json', json_encode($chatLog));
