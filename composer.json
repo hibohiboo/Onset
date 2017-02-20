@@ -1,0 +1,13 @@
+{
+    "require": {
+        "phpunit/phpunit": "^6.0"
+    },
+    "config": {
+        "vendor-dir": "./Test/vendor"
+    },
+    "autoload":{
+        "psr-4":{
+            "Onset\\":"./Onset/public_html/src/lib"
+        }
+    }
+}

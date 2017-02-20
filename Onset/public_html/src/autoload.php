@@ -3,7 +3,7 @@
 class Autoload{
 
     private function __construct(){
-        throw new LogicException('do not call class Autoload::__construct');
+        throw new LogicException('do not call Autoload::__construct');
     }
 
     const dir = __DIR__.'/lib/';
