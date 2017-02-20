@@ -2,7 +2,17 @@
 namespace Onset;
 require_once __DIR__.'/../autoload.php';
 
+/*
+ Utilクラス
+ インスタンス生成関数や、その他細かな関数をまとめる場所
+ このクラスが肥大化するのは多少しょうがない感
+ ただし、このクラスのインスタンスは作成禁止
+*/
 class Util{
+
+    private function __construct(){
+        throw new \LogicException('do not call Autoload::__construct');
+    }
 
     /*
      入力値($_POSTとか$_GETとか)を安全に取り出す
@@ -46,6 +56,11 @@ class Util{
         ];
         header('Content-Type: application/json');
         return json_encode($json);
+    }
+
+    static function getRoomlist(){
+        $obj = json_decode(file_get_contents(RoomSavepath));
+        return new Roomlist($obj);
     }
 
 }
