@@ -63,4 +63,9 @@ class Util{
         return new Roomlist($obj);
     }
 
+    static function getInput($key){
+        $rawInput = $_POST[$key];
+        return static::varidate($rawInput);
+    }
+
 }
