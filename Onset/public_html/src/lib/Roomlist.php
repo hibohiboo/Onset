@@ -19,7 +19,7 @@ class Roomlist{
      それだけ
     */
     public function getRoom($name){
-        if(!$this->isRoomExist($name)) throw new RuntimeException('部屋が存在しません');
+        if(!$this->isRoomExist($name)) throw new \RuntimeException('部屋が存在しません');
         return new Room($this->rooms->{$name});
     }
 
@@ -36,14 +36,14 @@ class Roomlist{
      実際にフォルダを作ったりするのはRoom::create
     */
     public function createRoom($name, $password){
-        if($this->isRoomExist($name)) LogicException('alrady exist room');
+        if($this->isRoomExist($name)) throw new \LogicException('alrady exist room');
         $path = RoomSavepath . uniqid('/', true);
         $room = new Room($path);
         return $room->create($password);
     }
 
     public function removeRoom($name){
-        if(!$this->isRoomExist($name)) LogicException('room not found');
+        if(!$this->isRoomExist($name)) throw new \LogicException('room not found');
         $this->getRoom($name)->remove();
     }
 
