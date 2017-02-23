@@ -42,9 +42,12 @@ class Roomlist{
         return $room->create($password);
     }
 
-    public function removeRoom($name){
+    public function removeRoom($name, $password){
         if(!$this->isRoomExist($name)) throw new \LogicException('room not found');
-        $this->getRoom($name)->remove();
+        $room = $this->getRoom($name);
+        if(!$room->checkPassword()) throw new \RuntimeException('パスワードが違います');
+        unset($this->rooms->{$name});
+        $room->remove();
     }
 
     /*
