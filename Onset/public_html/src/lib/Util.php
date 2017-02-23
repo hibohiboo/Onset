@@ -58,11 +58,21 @@ class Util{
         return json_encode($json);
     }
 
+    /*
+     config.phpの値から、Roomlistオブジェクトを取り出す関数
+     必ずこの関数を通してRoomlistを取得してください
+    */
     static function getRoomlist(){
         $obj = json_decode(file_get_contents(RoomSavepath));
         return new Roomlist($obj);
     }
 
+    /*
+     $_POSTの値を取得する関数
+     入力値はすべてこの関数から取得してください
+     詳しい内容はUtil::varidateを参照
+     (Util::varidateは直接使わないでください)
+    */
     static function getInput($key){
         $rawInput = $_POST[$key];
         return static::varidate($rawInput);

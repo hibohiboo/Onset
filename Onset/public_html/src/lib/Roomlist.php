@@ -42,6 +42,10 @@ class Roomlist{
         return $room->create($password);
     }
 
+    /*
+     部屋を削除する関数
+     パスワードが違うとRuntimeExceptionが投げられます
+    */
     public function removeRoom($name, $password){
         if(!$this->isRoomExist($name)) throw new \LogicException('room not found');
         $room = $this->getRoom($name);
