@@ -67,6 +67,11 @@ class Util{
         return new Roomlist($obj);
     }
 
+    static function saveRoomlist(Roomlist $roomlist){
+        $json = $roomlist->dumpJson();
+        file_put_contents(RoomSavepath, $json);
+    }
+
     /*
      $_POSTの値を取得する関数
      入力値はすべてこの関数から取得してください
