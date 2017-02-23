@@ -29,6 +29,20 @@ class Util{
         return $val;
     }
 
+    static function checkCsrfToken(){
+        $sessionToken = $_SESSION['onset_token'];
+        $postToken = static::getInput('csrfToken');
+        if(
+            $sessionToken !== null && 
+            $postToken !== null &&
+            $sessionToken == $postToken
+        ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     /*
      BCDiceへのURLを返す
      すでに秘伝のタレ(200年発酵)みたいになってる
