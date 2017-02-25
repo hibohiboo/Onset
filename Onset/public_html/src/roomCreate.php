@@ -12,7 +12,7 @@ $roomlist = Util::getRoomlist();
 $roomName = Util::getInput('roomName');
 $password = Util::getInput('password');
 
-if($roomName == null || $password == null){
+if($roomName === null || $password === null){
     echo Util::jsonMessage('空欄があります', -1);
     exit();
 }
