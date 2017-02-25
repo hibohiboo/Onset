@@ -77,13 +77,15 @@ class Util{
      必ずこの関数を通してRoomlistを取得してください
     */
     static function getRoomlist(){
-        $obj = json_decode(file_get_contents(RoomSavepath));
+        $path = realpath(RoomSavepath).'/roomlist';
+        $obj = json_decode(file_get_contents($path));
         return new Roomlist($obj);
     }
 
     static function saveRoomlist(Roomlist $roomlist){
+        $path = realpath(RoomSavepath).'/roomlist';
         $json = $roomlist->dumpJson();
-        file_put_contents(RoomSavepath, $json);
+        file_put_contents($path, $json);
     }
 
     /*
