@@ -29,4 +29,6 @@ if(!$result){
     exit();
 }
 
+Util::saveRoomlist($roomlist);
+
 echo Util::jsonMessage('ok');
