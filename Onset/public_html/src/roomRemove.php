@@ -7,8 +7,6 @@ if(!Util::checkCsrfToken()){
     exit();
 }
 
-$roomlist = Util::getRoomlist();
-
 $roomName = Util::getInput('roomName');
 $password = Util::getInput('password');
 
@@ -16,6 +14,8 @@ if($roomName === null || $password === null){
     echo Util::jsonMessage('空欄があります', -1);
     exit();
 }
+
+$roomlist = Util::getRoomlist();
 
 if(!$roomlist->isRoomExist($roomName)){
     echo Util::jsonMessage('存在しない部屋名です', -1);
