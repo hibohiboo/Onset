@@ -2,11 +2,6 @@
 require_once __DIR__.'/autoload.php';
 use Onset;
 
-if(!Util::checkCsrfToken()){
-    echo Util::jsonMessage('不正なアクセス', -1);
-    exit();
-}
-
 $roomName = Util::getInput('roomName');
 $password = Util::getInput('password');
 
