@@ -16,7 +16,7 @@ class Roomlist{
 
     /*
      部屋名からRoomクラスを返す
-     それだけ
+     部屋が存在しない場合はRuntimeExceptionが投げられます
     */
     public function getRoom($name){
         if(!$this->isRoomExist($name)) throw new \RuntimeException('部屋が存在しません');
@@ -34,9 +34,10 @@ class Roomlist{
     /*
      新しい部屋を作成するクラス
      実際にフォルダを作ったりするのはRoom::create
+     すでに存在する部屋名の場合はRuntimeExceptionが投げられます
     */
     public function createRoom($name, $password){
-        if($this->isRoomExist($name)) throw new \LogicException('alrady exist room');
+        if($this->isRoomExist($name)) throw new \RuntimeException('すでに存在する部屋名です');
         $path = RoomSavepath . uniqid('/', true);
         $room = new Room($path);
         return $room->create($password);
@@ -44,10 +45,10 @@ class Roomlist{
 
     /*
      部屋を削除する関数
-     パスワードが違うとRuntimeExceptionが投げられます
+     パスワードが違うか部屋が存在しない場合はRuntimeExceptionが投げられます
     */
     public function removeRoom($name, $password){
-        if(!$this->isRoomExist($name)) throw new \LogicException('room not found');
+        if(!$this->isRoomExist($name)) throw new \RuntimeException('部屋が存在しません');
         $room = $this->getRoom($name);
         if(!$room->checkPassword()) throw new \RuntimeException('パスワードが違います');
         unset($this->rooms->{$name});

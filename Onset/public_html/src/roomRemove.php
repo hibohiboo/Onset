@@ -12,13 +12,8 @@ if($roomName === null || $password === null){
 
 $roomlist = Util::getRoomlist();
 
-if(!$roomlist->isRoomExist($roomName)){
-    echo Util::jsonMessage('存在しない部屋名です', -1);
-    exit();
-}
-
 try{
-    $roomlist->removeRoom();
+    $roomlist->removeRoom($roomName, $password);
 }catch(\RuntimeException $err){
     echo Util::jsonMessage($err->getMessage(), -1);
     exit();

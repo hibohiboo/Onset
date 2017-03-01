@@ -12,12 +12,13 @@ if($roomName === null || $password === null){
 
 $roomlist = Util::getRoomlist();
 
-if($roomlist->isRoomExist($roomName)){
-    echo Util::jsonMessage('すでに存在する部屋名です', -1);
+$result;
+try{
+    $result = $roomlist->createRoom($roomName, $password);
+}catch(\RuntimeException $err){
+    echo Util::jsonMessage($err->getMessage, -1);
     exit();
 }
-
-$result = $roomlist->createRoom($roomName, $password);
 
 if(!$result){
     echo Util::jsonMessage('部屋データの作成に失敗しました');

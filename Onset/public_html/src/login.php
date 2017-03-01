@@ -13,12 +13,14 @@ if($nick === null || $password === null){
 
 $roomlist = Util::getRoomlist();
 
-if(!$roomlist->isRoomExist($roomName)){
-    echo Util::jsonMessage('存在しない部屋です', -1);
+$room;
+try{
+    $room = $roomlist->getRoom($roomName);
+}catch(RuntimeException $err){
+    echo Util::jsonMessage($err->getMessage(), -1);
     exit();
 }
 
-$room = $roomlist->getRoom($roomName);
 
 if(!$room->checkPassword($password)){
     echo Util::jsonMessage('パスワードが違います', -1);
