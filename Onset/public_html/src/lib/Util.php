@@ -44,6 +44,17 @@ class Util{
         return $procotlName . $_SERVER['SERVER_NAME'] . $urlPath;
     }
 
+    public static function diceroll($text, $sys){
+        $url = static::getBcdiceUrl();
+        $encordedText = urlencode($text);
+        $encordedSys  = urlencode($sys);
+        $ret = file_get_contents($url."?text={$encordedText}&sys={$encordedSys}");
+        if(trim($ret) == '1' || trim($ret) == 'error'){
+            $ret = "";
+        }
+        return trim(str_replace('onset: ', '', $ret));
+    }
+
     /*
      フロントとのやり取りのためのJsonを返す
      その名の通り、フロントとやり取りするときはこの関数使ってください
