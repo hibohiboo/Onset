@@ -27,5 +27,6 @@ if(!$room->checkPassword($password)){
     exit();
 }
 
+$_SESSION['onsetId'] = dechex(mt_rand());
 $_SESSION['onsetRoom'] = $roomName;
 echo Util::jsonMessage('ok');
