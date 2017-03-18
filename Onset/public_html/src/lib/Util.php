@@ -10,6 +10,10 @@ require_once __DIR__.'/../autoload.php';
 */
 class Util{
 
+
+    /*
+     インスタンスは作っちゃだめです
+    */
     private function __construct(){
         throw new \LogicException('do not call Autoload::__construct');
     }
@@ -44,6 +48,10 @@ class Util{
         return $procotlName . $_SERVER['SERVER_NAME'] . $urlPath;
     }
 
+    /*
+     ダイスロールを行う
+     重いと思うので、改善したい
+    */
     public static function diceroll($text, $sys){
         $url = static::getBcdiceUrl();
         $encordedText = urlencode($text);
@@ -79,6 +87,9 @@ class Util{
         return new Roomlist($obj);
     }
 
+    /*
+     Roomlistオブジェクトを保存する関数
+    */
     static function saveRoomlist(Roomlist $roomlist){
         $path = realpath(RoomSavepath).'/roomlist';
         $json = $roomlist->dumpJson();
