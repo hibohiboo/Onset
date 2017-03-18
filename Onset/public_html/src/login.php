@@ -11,7 +11,7 @@ if($nick === null || $password === null){
     exit();
 }
 
-$roomlist = Util::getRoomlist();
+$roomlist = Roomlist::create();
 
 $room;
 try{

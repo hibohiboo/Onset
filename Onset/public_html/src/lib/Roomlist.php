@@ -5,6 +5,26 @@ require_once __DIR__.'/../autoload.php';
 class Roomlist{
 
     /*
+     Roomlistオブジェクトを返す関数
+     config.phpの設定を元にRoomlistを生成します
+     基本的にこの関数を使ってください
+    */
+    static function create(){
+        $path = realpath(RoomSavepath).'/roomlist';
+        $obj = json_decode(file_get_contents($path));
+        return new static($obj);
+    }
+
+    /*
+     Roomlistを保存する
+    */
+    public function save(){
+        $path = realpath(RoomSavepath).'/roomlist';
+        $json = $this->dumpJson();
+        file_put_contents($path, $json);
+    }
+
+    /*
      コンストラクタ
      部屋データのstdClassを渡してください
      (想定としては、roomlistをjson_decodeしたものを直接渡す)

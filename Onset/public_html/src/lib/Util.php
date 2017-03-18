@@ -78,25 +78,6 @@ class Util{
     }
 
     /*
-     config.phpの値から、Roomlistオブジェクトを取り出す関数
-     必ずこの関数を通してRoomlistを取得してください
-    */
-    static function getRoomlist(){
-        $path = realpath(RoomSavepath).'/roomlist';
-        $obj = json_decode(file_get_contents($path));
-        return new Roomlist($obj);
-    }
-
-    /*
-     Roomlistオブジェクトを保存する関数
-    */
-    static function saveRoomlist(Roomlist $roomlist){
-        $path = realpath(RoomSavepath).'/roomlist';
-        $json = $roomlist->dumpJson();
-        file_put_contents($path, $json);
-    }
-
-    /*
      $_POSTの値を取得する関数
      入力値はすべてこの関数から取得してください
      詳しい内容はUtil::varidateを参照

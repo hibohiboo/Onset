@@ -16,7 +16,7 @@ if($time === null){
     exit();
 }
 
-$room = Util::getRoomlist()->getRoom($roomName);
+$room = Roomlist::create()->getRoom($roomName);
 $chatlog = $room->searchChatlog($time);
 
 echo Util::jsonMessage('ok', 1, $chatlog);

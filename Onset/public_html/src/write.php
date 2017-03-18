@@ -18,7 +18,7 @@ if($nick === null || $system === null || $text === null){
     exit();
 }
 
-$roomlist = Util::getRoomlist();
+$roomlist = Roomlist::create();
 
 $room;
 try{

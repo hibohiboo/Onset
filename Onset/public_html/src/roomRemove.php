@@ -10,7 +10,7 @@ if($roomName === null || $password === null){
     exit();
 }
 
-$roomlist = Util::getRoomlist();
+$roomlist = Roomlist::create();
 
 try{
     $roomlist->removeRoom($roomName, $password);
@@ -19,5 +19,5 @@ try{
     exit();
 }
 
-Util::saveRoomlist($roomlist);
+$roomlist->save();
 echo Util::jsonMessage('ok');
