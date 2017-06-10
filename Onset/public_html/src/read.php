@@ -3,20 +3,27 @@ require_once __DIR__.'/autoload.php';
 use Onset;
 
 if(!isset($_SESSION['onsetRoom'])){
-    echo Util::jsonMessage('ログインしてください', -1);
+    echo Message::err('ログインしてください');
     exit();
 }
 
-$roomName = $_SESSION['onsetRoom'];
+$roomId = $_SESSION['onsetRoom'];
 
-$time = Util::getInput('time');
+$time = Input::get('time');
 
 if($time === null){
-    echo Util::jsonMessage('不正なアクセス', -1);
+    echo Message::err('不正なアクセス');
     exit();
 }
 
-$room = Roomlist::create()->getRoom($roomName);
-$chatlog = $room->searchChatlog($time);
+$chatLog = null;
+try{
+    $chatLog = (new Room($roomId))->getChatlog;
+}catch(\RuntimeException $err){
+    echo Message::err($err->message);
+    exit();
+}
 
-echo Util::jsonMessage('ok', 1, $chatlog);
+$log = $chatlog->getAfterLog($time);
+
+echo Message::ok('ok', $log);

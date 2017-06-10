@@ -19,6 +19,13 @@ class Chat implements IteratorAggregate{
         return $this->log;
     }
 
+    public function getAfterLog($time){
+        if($time === 0) return $this->log;
+        foreach(array_reverse($this->log) as $idx => $chat){
+            if($chat->time < $time) return array_slice($this->log, -$idx);
+        }
+    }
+
     public function push($obj){
         $this->log[] = $obj;
         file_put_contents($this->path, json_encode($this->log));
