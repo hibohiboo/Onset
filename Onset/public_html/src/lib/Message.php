@@ -13,6 +13,7 @@ class Message{
     }
 
     static function messageJson($code, $message, $data){
+        header("Content-Type: application/json; charset=utf-8");
         return json_encode([
             'code'=>$code,
             'message'=>$message,
