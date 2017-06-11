@@ -31,4 +31,25 @@ class Chat implements IteratorAggregate{
         file_put_contents($this->path, json_encode($this->log));
     }
 
+    static function getBcdiceUrl(){
+        if(BcdiceURL != "") return BcdiceURL;
+        $_dir = str_replace("\\", "/", __DIR__);
+        $fullPath = preg_replace("/src.+$/", "", $_dir) . "bcdice/roll.rb";
+        $docRoot = str_replace($_SERVER['SCRIPT_NAME'], "", $_SERVER['SCRIPT_FILENAME']);
+        $urlPath = str_replace($docRoot, "", $fullPath);
+        $procotlName = !isset($_SERVER['HTTPS']) ? 'http://' : 'https://';
+        return $procotlName . $_SERVER['SERVER_NAME'] . $urlPath;
+    }
+
+    static function diceroll($text, $sys){
+        $url = static::getBcdiceUrl();
+        $encordedText = urlencode($text);
+        $encordedSys  = urlencode($sys);
+        $ret = file_get_contents($url."?text={$encordedText}&sys={$encordedSys}");
+        if(trim($ret) == '1' || trim($ret) == 'error'){
+            $ret = "";
+        }
+        return trim(str_replace('onset: ', '', $ret));
+    }
+
 }

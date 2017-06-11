@@ -3,32 +3,30 @@ require_once __DIR__.'/autoload.php';
 use Onset;
 
 if(!isset($_SESSION['onsetRoom'])){
-    echo Util::jsonMessage('ログインしてください', -1);
+    echo Message::err('ログインしてください');
     exit();
 }
 
-$roomName = $_SESSION['onsetRoom'];
+$roomId = $_SESSION['onsetRoom'];
 
-$nick = Util::getInput('nick');
-$system = Util::getInput('system');
-$text = Util::getInput('text');
+$nick = Input::get('nick');
+$system = Input::get('system');
+$text = Input::get('text');
 
 if($nick === null || $system === null || $text === null){
-    echo Util::jsonMessage('空欄があります', -1);
+    echo Message::err('空欄があります');
     exit();
 }
 
-$roomlist = Roomlist::create();
-
-$room;
+$room = null;
 try{
-    $room = $roomlist->getRoom($room);
-}catch(\RuntimeException $err){
-    echo Util::jsonMessage($err->getMessage(), -1);
+    $room = new Room($roomId);
+}catch(\RuntimeExceptino $err){
+    echo Message::err($err->message);
     exit();
 }
 
-$diceResult = Util::diceroll($text, $system);
+$diceResult = Chat::diceroll($text, $sys);
 
 $chatData = (object)[
     'time' => microtime(true),
@@ -39,8 +37,8 @@ $chatData = (object)[
 ];
 
 if($room->putChatlog($chatData) === false){
-    echo Util::jsonMessage('チャットログへの書き込みに失敗しました', -1);
+    echo Message::err('チャットログへの書き込みに失敗しました');
     exit();
 }
 
-echo Util::jsonMessage('ok');
+echo Message::ok('ok');
