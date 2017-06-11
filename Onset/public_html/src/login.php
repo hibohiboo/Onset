@@ -7,7 +7,7 @@ $roomId = Input::get('roomId');
 $password = Input::get('password');
 
 if($nick === null || $roomId === null || $password === null){
-    echo Util::jsonMessage('空欄があります', -1);
+    echo Message::err('空欄があります');
     exit();
 }
 

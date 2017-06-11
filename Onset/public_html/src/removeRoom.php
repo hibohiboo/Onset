@@ -19,4 +19,4 @@ try{
     exit();
 }
 
-echo Util::jsonMessage('ok');
+echo Message::ok('ok');
