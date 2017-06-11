@@ -10,10 +10,14 @@ if($roomName === null || $password === null){
     exit();
 }
 
-$room = new Room();
-$room->name = $roomName;
-$room->setPassword($password);
-
-$room->save();
+try{
+    $room = new Room();
+    $room->name = $roomName;
+    $room->setPassword($password);
+    $room->save();
+}catch(\RuntimeException $err){
+    echo Message::err($err->message);
+    exit();
+}
 
 echo Message::ok('ok');

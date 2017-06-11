@@ -27,6 +27,8 @@ class Chat implements IteratorAggregate{
     }
 
     public function push($obj){
+        if($obj->text > MaxText) throw new \RuntimeException('テキストが長すぎます');
+        if($obj->nick > MaxNick) throw new \RuntimeException('ニックネームが長すぎます');
         $this->log[] = $obj;
         file_put_contents($this->path, json_encode($this->log));
     }

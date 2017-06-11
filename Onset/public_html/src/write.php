@@ -36,8 +36,10 @@ $chatData = (object)[
     'id' => $_SESSION['onsetId']
 ];
 
-if($room->putChatlog($chatData) === false){
-    echo Message::err('チャットログへの書き込みに失敗しました');
+try{
+    $room->putChatlog($chatData);
+}catch(\RuntimeException $err){
+    echo Message::err($err->message);
     exit();
 }
 

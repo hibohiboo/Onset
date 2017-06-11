@@ -22,9 +22,20 @@ class Room{
         }
     }
 
+    static function deleteOldRoom(){
+        foreach(scandir(RoomSavepath) as $file){
+            $path = realpath(RoomSavepath).'/'.$file;
+            if($file === '.' || $file === '..' || is_file($path)) continue;
+            if(time() - filemtime($path) > RoomDelTime){
+
+            }
+        }
+    }
+
     function __construct($id = ''){
         // 新規作成の場合、新しくフォルダを作成
         if($id === ''){
+            if(scandir(RoomSavepath) > RoomLimit+2) throw new \RuntimeException('部屋数制限いっぱいです');
             $this->id = uniqid('', true);
             $this->path = realpath(RoomSavepath).'/'.$id;
             mkdir($this->path);
@@ -39,6 +50,7 @@ class Room{
     }
 
     public function save(){
+        if(mb_strlen($this->name) > MaxRoomName) throw new \RuntimeException('部屋名が長すぎます');
         $data = (Object)[
             'name'=>$this->name,
             'passwd'=>$this->passwd,
