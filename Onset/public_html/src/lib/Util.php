@@ -1,6 +1,5 @@
 <?php
 namespace Onset;
-require_once __DIR__.'/../autoload.php';
 
 /*
  Utilクラス
@@ -21,12 +20,13 @@ class Util{
     static function loadFile($path){
         $fp = fopen($path, 'r');
         flock($fp, LOCK_SH);
-        for($str += fgets($fp); !feof($fp); $str += fgets($fp));
+        $str = '';
+        for($str .= fgets($fp); !feof($fp); $str .= fgets($fp));
         return $str;
     }
 
     static function removeFolder($path){
-        $path = realpath($path);
+        if(!is_dir($path)) throw new \LogicException('arg require directory path');
         foreach(scandir($path) as $f){
             if($f === '.' || $f === '..') continue;
             $cur = $path.'/'.$f;
