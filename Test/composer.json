@@ -1,0 +1,11 @@
+{
+    "require": {
+        "mikey179/vfsStream": "^1.6",
+        "phpunit/phpunit": "^6.2"
+    },
+    "autoload": {
+      "psr-4": {
+          "Onset\\":"../Onset/public_html/src/lib"
+      }  
+    }
+}
