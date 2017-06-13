@@ -26,4 +26,11 @@ class UtilTest extends TestCase
         $this->assertTrue($this->vPath->hasChild('testFolder'));
     }
 
+    /**
+     * @expectedException LogicException
+     */
+    public function testRemoveFolderException(){
+        Util::removeFolder('fugafuga');
+    }
+
 }
