@@ -1,6 +1,5 @@
 <?php
 namespace Onset;
-require_once __DIR__.'/../autoload.php';
 
 class Message{
 
