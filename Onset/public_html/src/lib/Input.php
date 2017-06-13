@@ -1,12 +1,12 @@
 <?php
 namespace Onset;
-require_once __DIR__.'/../autoload.php';
 
 class Input{
 
     static function get($key, $default = null){
         if(!isset($_POST[$key])) return $default;
-        return varidate($key, $default);
+        if(is_array($_POST[$key])) return $_POST[$key];
+        return static::varidate($_POST[$key], $default);
     }
 
     static function varidate($value, $default = null){
