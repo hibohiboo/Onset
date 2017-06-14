@@ -26,7 +26,7 @@ $welcomeMessage = file_get_contents('welcomeMessage.html');
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Cache-Control" content="no-cache">
-    <script src="js/jquery-3.1.1.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/onset.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>rand = <?= $rand ?>;</script>
