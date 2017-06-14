@@ -1,9 +1,8 @@
 <?php
 
 namespace Onset;
-require_once __DIR__.'/../autoload.php';
 
-class Chat implements IteratorAggregate{
+class Chat implements \IteratorAggregate{
 
     private $path = '';
     private $log = [];
@@ -21,8 +20,9 @@ class Chat implements IteratorAggregate{
 
     public function getAfterLog($time){
         if($time === 0) return $this->log;
+        if($this->log[count($this->log) - 1]->time < $time) return [];
         foreach(array_reverse($this->log) as $idx => $chat){
-            if($chat->time < $time) return array_slice($this->log, -$idx);
+            if($chat->time < $time) return array_slice($this->log, -$idx+1);
         }
     }
 
