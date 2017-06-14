@@ -1,0 +1,10 @@
+<phpunit
+    colors="true"
+>
+    <testsuites>
+        <testsuite name="My Test Suite">
+            <directory>./</directory>
+            <exclude>./vendor/</exclude>
+        </testsuite>
+    </testsuites>
+</phpunit>
