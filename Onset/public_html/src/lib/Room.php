@@ -5,7 +5,7 @@ require_once __DIR__.'/../autoload.php';
 /*
  部屋クラス
 */
-class Room implements IteratorAggregate{
+class Room implements \IteratorAggregate{
 
     private $path;
     private $roomlist;
