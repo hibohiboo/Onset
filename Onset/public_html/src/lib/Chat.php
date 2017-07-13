@@ -2,7 +2,7 @@
 
 namespace Onset;
 
-class Chat implements \IteratorAggregate{
+class Chat{
 
     private $path = '';
     private $log = [];
@@ -14,7 +14,7 @@ class Chat implements \IteratorAggregate{
         $this->log = json_decode(Util::loadFile($path));
     }
 
-    public function getIterator(){
+    public function getList(){
         return $this->log;
     }
 

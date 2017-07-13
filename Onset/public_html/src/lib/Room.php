@@ -4,7 +4,7 @@ namespace Onset;
 /*
  部屋クラス
 */
-class Room implements \IteratorAggregate{
+class Room{
 
     private $path;
     private $roomlist;
@@ -14,7 +14,7 @@ class Room implements \IteratorAggregate{
         $this->roomlist = json_decode(Util::loadFile($this->path . '/roomlist.json'), true);
     }
 
-    public function getIterator(){
+    public function getList(){
         return $this->roomlist;
     }
 
