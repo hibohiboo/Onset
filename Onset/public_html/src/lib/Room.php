@@ -5,7 +5,7 @@ require_once __DIR__.'/../autoload.php';
 /*
  部屋クラス
 */
-class Room{
+class Room implements IteratorAggregate{
 
     private $path;
     private $roomlist;
@@ -15,7 +15,7 @@ class Room{
         $this->roomlist = json_decode(Util::loadFile($this->path . '/roomlist.json'), true);
     }
 
-    public function getList(){
+    public function getIterator(){
         return $this->roomlist;
     }
 
