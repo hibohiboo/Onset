@@ -12,9 +12,7 @@ if($roomName === null || $password === null){
 
 try{
     $room = new Room();
-    $room->name = $roomName;
-    $room->setPassword($password);
-    $room->save();
+    $room->create($roomName, $password);
 }catch(\RuntimeException $err){
     echo Message::err($err->message);
     exit();

@@ -11,9 +11,9 @@ if($roomId === null || $password === null){
 }
 
 try{
-    $room = new Room($roomId);
-    $room->checkPass($password);
-    $room->delete();
+    $room = new Room();
+    $room->checkPassword($roomId, $password);
+    $room->delete($roomId);
 }catch(\RuntimeException $err){
     echo Message::err($err->message);
     exit();

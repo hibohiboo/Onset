@@ -18,7 +18,7 @@ if($time === null){
 
 $chatLog = null;
 try{
-    $chatLog = (new Room($roomId))->getChatlog;
+    $chatLog = (new Room())->getChatlog($roomId);
 }catch(\RuntimeException $err){
     echo Message::err($err->message);
     exit();

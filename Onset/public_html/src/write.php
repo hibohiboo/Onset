@@ -18,9 +18,9 @@ if($nick === null || $system === null || $text === null){
     exit();
 }
 
-$room = null;
+$chat = null;
 try{
-    $room = new Room($roomId);
+    $chat = (new Room())->getChatlog($roomId);
 }catch(\RuntimeExceptino $err){
     echo Message::err($err->message);
     exit();
@@ -37,7 +37,7 @@ $chatData = (object)[
 ];
 
 try{
-    $room->putChatlog($chatData);
+    $chat->push($chatData);
 }catch(\RuntimeException $err){
     echo Message::err($err->message);
     exit();

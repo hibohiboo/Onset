@@ -11,15 +11,14 @@ if($nick === null || $roomId === null || $password === null){
     exit();
 }
 
-$room = null;
-try{
-    $room = new Room($roomId);
-}catch(\RuntimeException $err){
-    Message::err($err->message);
+$room = new Room();
+
+if(!$room->isExist($roomId)){
+    Message::err('存在しない部屋です');
     exit();
 }
 
-if(!$room->checkPass($password)){
+if(!$room->checkPassword($roomId, $password)){
     Message::err('パスワードが違います');
     exit();
 }
