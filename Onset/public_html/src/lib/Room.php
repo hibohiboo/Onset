@@ -1,6 +1,5 @@
 <?php
 namespace Onset;
-require_once __DIR__.'/../autoload.php';
 
 /*
  部屋クラス
@@ -10,7 +9,7 @@ class Room implements \IteratorAggregate{
     private $path;
     private $roomlist;
 
-    function __construct(){
+    function __construct($path = \RoomSavepath){
         $this->path = realpath(\RoomSavepath);
         $this->roomlist = json_decode(Util::loadFile($this->path . '/roomlist.json'), true);
     }

@@ -17,10 +17,10 @@ class Autoload{
 
 spl_autoload_register(['Autoload', 'load']);
 
-if(!defined('DEBUG') && !file_exists(__DIR__.'/config.php')){
+if(!file_exists(__DIR__.'/config.php')){
     echo "config.phpがありません";
     exit();
 }
-if(!defined('DEBUG')) require_once(__DIR__.'/config.php');
+require_once(__DIR__.'/config.php');
 
 session_start();
