@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__.'/autoload.php';
-use Onset;
+use Onset\Message;
+use Onset\Input;
+use Onset\Room;
 
 if(!isset($_SESSION['onsetRoom'])){
     echo Message::err('ログインしてください');

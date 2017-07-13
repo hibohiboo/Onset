@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__.'/autoload.php';
-use Onset;
+use Onset\Input;
+use Onset\Message;
+use Onset\Room;
 
 $roomName = Input::get('roomName');
 $password = Input::get('password');
