@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__.'/autoload.php';
 use Onset\Message;
-use Onset\Input;
+use Onset\Request;
 use Onset\Room;
 
 if(!isset($_SESSION['onsetRoom'])){
@@ -11,7 +11,8 @@ if(!isset($_SESSION['onsetRoom'])){
 
 $roomId = $_SESSION['onsetRoom'];
 
-$time = Input::get('time');
+$req = new Request();
+$time = $req->get('time');
 
 if($time === null){
     echo Message::err('不正なアクセス');

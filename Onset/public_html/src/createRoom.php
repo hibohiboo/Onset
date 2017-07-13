@@ -1,11 +1,12 @@
 <?php
 require_once __DIR__.'/autoload.php';
-use Onset\Input;
+use Onset\Request;
 use Onset\Message;
 use Onset\Room;
 
-$roomName = Input::get('roomName');
-$password = Input::get('password');
+$req = new Request();
+$roomName = $req->get('roomName');
+$password = $req->get('password');
 
 if($roomName === null || $password === null){
     echo Message::err('空欄があります');

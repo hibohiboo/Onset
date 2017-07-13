@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__.'/autoload.php';
-use Onset\Input;
+use Onset\Request;
 use Onset\Message;
 use Onset\Room;
 
@@ -11,9 +11,10 @@ if(!isset($_SESSION['onsetRoom'])){
 
 $roomId = $_SESSION['onsetRoom'];
 
-$nick = Input::get('nick');
-$system = Input::get('system');
-$text = Input::get('text');
+$req = new Request();
+$nick = $req->get('nick');
+$system = $req->get('system');
+$text = $req->get('text');
 
 if($nick === null || $system === null || $text === null){
     echo Message::err('空欄があります');
