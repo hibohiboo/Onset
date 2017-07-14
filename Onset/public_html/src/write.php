@@ -25,7 +25,7 @@ $chat = null;
 try{
     $chat = (new Room())->getChatlog($roomId);
 }catch(\RuntimeExceptino $err){
-    echo Message::err($err->message);
+    echo Message::err($err->getMessage());
     exit();
 }
 
@@ -42,7 +42,7 @@ $chatData = (object)[
 try{
     $chat->push($chatData);
 }catch(\RuntimeException $err){
-    echo Message::err($err->message);
+    echo Message::err($err->getMessage());
     exit();
 }
 

@@ -23,7 +23,7 @@ $chatLog = null;
 try{
     $chatLog = (new Room())->getAfterlog($roomId);
 }catch(\RuntimeException $err){
-    echo Message::err($err->message);
+    echo Message::err($err->getMessage());
     exit();
 }
 

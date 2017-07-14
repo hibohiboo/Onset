@@ -15,10 +15,10 @@ if($roomId === null || $password === null){
 
 try{
     $room = new Room();
-    $room->checkPassword($roomId, $password);
+    if(!$room->checkPassword($roomId, $password)) throw new \RuntimeException('パスワードが違います');
     $room->delete($roomId);
 }catch(\RuntimeException $err){
-    echo Message::err($err->message);
+    echo Message::err($err->getMessage());
     exit();
 }
 

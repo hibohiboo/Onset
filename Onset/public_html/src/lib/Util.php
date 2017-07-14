@@ -18,7 +18,8 @@ class Util{
     }
 
     static function loadFile($path){
-        $fp = fopen($path, 'r');
+        $fp = @fopen($path, 'r');
+        if(!$fp) return null;
         flock($fp, LOCK_SH);
         $str = '';
         for($str .= fgets($fp); !feof($fp); $str .= fgets($fp));

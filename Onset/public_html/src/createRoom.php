@@ -17,7 +17,7 @@ try{
     $room = new Room();
     $room->create($roomName, $password);
 }catch(\RuntimeException $err){
-    echo Message::err($err->message);
+    echo Message::err($err->getMessage());
     exit();
 }
 
