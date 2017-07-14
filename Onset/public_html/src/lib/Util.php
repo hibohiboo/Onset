@@ -34,6 +34,7 @@ class Util{
             if(is_dir($cur)) static::removeFolder($cur);
             else unlink($cur);
         }
+        rmdir($path);
     }
 
 }
