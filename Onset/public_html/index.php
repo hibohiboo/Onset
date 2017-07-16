@@ -1,21 +1,15 @@
 <?php
+require_once(__DIR__.'/src/autoload.php');
+use Onset\Room;
 
-require_once(__DIR__.'/src/core.php');
+$_SESSION['onsetCsrfToken'] = $rand = uniqid(dechex(mt_rand()));
 
-$dir = RoomSavepath;
-$roomlist = [];
-foreach(Onset::getRoomlist() as $room => $data){
-    if(time() - filemtime($dir.$data->path) > RoomDelTime) continue;
-    $roomlist[] = $room;
-}
-
-$roomlistView = Onset::viewRoomlist($roomlist);
-
-session_start();
-$_SESSION['onset_rand'] = $rand = mt_rand();
-
+$roomlist = (new Room())->getList();
 $welcomeMessage = file_get_contents('welcomeMessage.html');
 
+function h($str){
+    return htmlspecialchars($str, ENT_QUOTES);
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,62 +23,68 @@ $welcomeMessage = file_get_contents('welcomeMessage.html');
     <script src="js/jquery.min.js"></script>
     <script src="js/onset.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>rand = <?= $rand ?>;</script>
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/onset.css">
 </head>
 <body>
-    <script>$(document).ready(function(){delLeftRoom();});</script>
-    <div class="header container">
+    <div class="container top">
         <h1>Onset!</h1>
         <article><?=$welcomeMessage?></article>
     </div>
 
-    <div class="login container">
-        <a id="toggle" onclick="toggle()">部屋の作成/削除</a>
-        <form id="enter">
-            <div id="input" class="form-group">
-                <input type="text" class="form-control" id="nick" placeholder="名前">
-                <input type="password" class="form-control" id="pass" placeholder="パスワード">
-                <input type="button" class="form-control send" value="入室" onclick="enterRoom()">
-                <div id="enterNotice" class="notice"></div>
-            </div>
-
+    <div id="enter" class="container">
+        <div class="onset-form">
             <div class="form-group">
-                <p>部屋一覧</p>
-                <?= $roomlistView ?>
+                <input type="text" class="form-control" id="nick" placeholder="名前">
             </div>
-        </form>
+            <div class="form-group">
+                <input type="password" class="form-control" id="pass" placeholder="パスワード">
+            </div>
+            <div id="notice" class="alert-warning"></div>
+        </div>
+
+        <p><span class="btn-link" onclick="toggleTopPage()">部屋の作成</span></p>
+
+        <div>
+            <p>部屋一覧</p>
+            <div class="table-responsive">
+                <table class="table table-sm">
+                <tr>
+                    <th class="roomname">部屋名</th>
+                    <th colspan="3">操作</th>
+                </tr>
+                <?php foreach($roomlist as $id => $data): ?>
+                    <tr>
+                        <td><?= h($data['name']) ?></td>
+                        <td><button onclick="enterRoom('<?= $id ?>')" class="btn btn-primary">入室</button></td>
+                        <td><button onclick="removeRoom('<?= $id ?>')" class="btn btn-danger">削除</button></td>
+                        <td><button onclick="alert('id:<?= $id ?>')" class="btn btn-info">情報</button></td>
+                    </tr>
+                <?php endforeach; ?>
+                </table>
+            </div>
+        </div>
     </div>
 
-    <div class="edit container">
-        
-        <a onclick="toggle()" id="toggle">閉じる</a>
+    <div id="create" class="container" style="display:none;">
 
-        <h2>作成</h2>
+        <div class="onset-form">
+            <div class="form-group">
+                <input type="text" class="form-control" id="roomName" placeholder="部屋名">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="roomPass" placeholder="パスワード">
+            </div>
 
-        <form id="create" class="form-group">
-            <input type="text" class="form-control" id="room" placeholder="部屋名">
-            <input type="password" class="form-control" id="pass" placeholder="パスワード">
-            <input type="hidden" class="form-control" id="create_rand" value="<?=$rand?>">
-            <input type="button" class="form-control send" value="作成" onclick="createRoom()">
-            <span id="createNotice" class="notice"></span>
-        </form>
-
-        <h2>削除</h2>
-
-        <form id="remove" class="form-group">
-            <input type="password" class="form-control" id="pass" placeholder="パスワード">
-            <input type="hidden" class="form-control" id="remove_rand" value="<?=$rand?>">
-            <input type="button" class="form-control del" value="削除" onclick="removeRoom()">
-            <span id="removeNotice" class="notice"></span>
+            <div id="createNotice" class="alert-warning"></div>
             
             <div class="form-group">
-                <p>部屋一覧</p>
-                <?= $roomlistView ?>
+                <button class="btn btn-primary" onclick="createRoom()">作成</button>
             </div>
-        </form>
+        </div>
+
+        <p><span class="btn-link" onclick="toggleTopPage()" class="button-inline">戻る</span></p>
     </div>
 </body>
 </html>

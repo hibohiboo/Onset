@@ -19,157 +19,48 @@ function call(srcPoint = '', dataObj = {}){
     });
 }
 
-function delLeftRoom(){
-    call('delLeftRoom')
-    .done(function(ret){
-        console.log(ret.message);
-    });
-}
-
-function toggle(){
-    $(".edit").slideToggle('fast');
-    $(".login").slideToggle('fast');
-}
-
-function enterRoom(){
-    var $enter = $("#enter");
-    var nick = $enter.find("#nick").val();
-    var pass = $enter.find("#pass").val();
-    var room = $enter.find("input[name='room']:checked").val();
-    var $enterNotice = $('#enterNotice');
-    
-    if(nick === '' || pass === '' || room === undefined){
-        $enterNotice.text('空欄があります');
-        return;
-    }
-    $enterNotice.text('処理中...');
-    
-    call('login', {"nick":nick, "pass":pass, "room":room})
-    .done(function(data){
-            if(data.status != 1){
-                var msg = data.message;
-                $enterNotice.text(msg);
-                return;
-            }
-            location.href = 'Onset.php';
-    });
+function toggleTopPage(){
+    $('#enter').slideToggle();
+    $('#create').slideToggle();
 }
 
 function createRoom(){
-    var $create = $("#create");
-    var pass = $create.find("#pass").val();
-    var room = $create.find("#room").val();
-    var rand = $create.find("#create_rand").val();
-    var $createNotice = $('#createNotice');
+    var roomName = $('#roomName').val();
+    var roomPass = $('#roomPass').val();
 
-    if(rand === '' || pass === '' || room === ''){
-        $createNotice.text('空欄があります');
-        return;
-    }
-    $createNotice.text('処理中...');
-    
-    call('createRoom', {"rand":rand, "pass":pass, "room":room, "rand":rand})
-    .done(function(data){
-        if(data.status != 1){
-            var msg = data.message;
-            $createNotice.text(msg);
+    call('createRoom', {roomName:roomName, password:roomPass}).done(function(data){
+        if(data.code === 1){
+            location.reload();
             return;
         }
-        location.reload(true);
+        $('#createNotice').text(data.message);
     });
 }
 
-function removeRoom(){
-    var $remove = $("#remove");
-    var pass = $remove.find("#pass").val();
-    var room = $remove.find("input[name='room']:checked").val();
-    var rand = $remove.find("#remove_rand").val();
-    var $removeNotice = $('#removeNotice');
+function enterRoom(id){
+    var nick = $('#nick').val();
+    var pass = $('#pass').val();
 
-    if(rand === '' || pass === '' || room === undefined){
-        $removeNotice.text('空欄があります');
-        return;
-    }
-    $removeNotice.text('処理中...');
-    
-    call('removeRoom', {"rand":rand, "pass":pass, "room":room, "rand":rand})
-    .done(function(data){
-        if(data.status != 1){
-            var msg = data.message;
-            $removeNotice.text(msg);
+    call('login', {roomId:id, nick:nick, password:pass}).done(function(data){
+        if(data.code === 1){
+            location.href = 'Onset.php';
             return;
         }
-        location.reload(true);
+        $('#notice').text(data.message);
     });
 }
 
-function get_log(finaltime = 0.0){
-    call('read', {"time": finaltime}).done(function(ret){
-        if(ret.status != 1){
-            //アプリケーションエラー処理
+function removeRoom(id){
+    var pass = $('#pass').val();
+
+    var check = confirm('本当に削除しますか？');
+    if(!check) return;
+
+    call('removeRoom', {roomId:id, password:pass}).done(function(data){
+        if(data.code === 1){
+            location.reload();
             return;
         }
-        var docFrag = $(document.createDocumentFragment());
-        ret.data.forEach(function(val, idx, arr){
-            var name = $("<span></span>",{text:val.nick + ' ('+val.id+')', class:'chat-nick'});
-            var text = $("<div></div>", {text:val.text, class:'chat-text'});
-            text.html( text.html().replace("\n", "<br />") );
-            var dice = $("<div></div>", {text:val.dice, class:'chat-dice'});
-            var chat = $("<div></div>", {class:'chat-obj'}).append(name).append(text).append(dice);
-            chat.prependTo(docFrag);
-        });
-        docFrag.prependTo("#chatLog");
-        if(ret.data.length != 0) finaltime = ret.data[ret.data.length - 1].time;
-        $("#onsetNotice").text('');
-    }).fail(function(){
-        //通信エラー処理
-    }).always(function(){
-        setTimeout(function(){get_log(finaltime);} , 1000);
+        $('#notice').text(data.message);
     });
 }
-
-
-
-function send_chat(){
-    
-    var nick = $("#nick").val().trim();
-    var text = $("#text").val().trim();
-    var sys = $("#sys").val().trim();
-    var $onsetNotice = $("#onsetNotice");
-
-    if(nick === "" || text === ""){
-        $(".notice").html("<b>名前と本文を入力してください</b>");
-        return 0;
-    }
-    $onsetNotice.text('送信中...');
-
-    call("write", {"nick": nick, "text": text, "sys": sys})
-    .done(function(data){
-        if(data.status == -1){
-            var msg = data.message;
-            $onsetNotice.text(msg);
-            return;
-        }
-        $("#text").val('');
-    }).fail(function(){
-        $onsetNotice.text('通信エラー、再送信をお願いします');
-    });
-}
-
-$(function($){
-    $("#text").keydown(function(e){
-        if(e.ctrlKey && e.keyCode === 13){
-            send_chat();
-            return false;
-        }
-    });
-});
-
-function checkLoginUser(){
-    call('checkLoginUser')
-    .done(function(data){
-        alert(data.message);
-        call('checkLoginUser', {'lock': 'unlock'});
-    });
-}
-
