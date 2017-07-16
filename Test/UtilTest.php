@@ -23,7 +23,7 @@ class UtilTest extends TestCase
         mkdir($path.'/hoge');
         touch($path.'/hoge/fuga');
         Util::removeFolder($path);
-        $this->assertTrue($this->vPath->hasChild('testFolder'));
+        $this->assertFalse($this->vPath->hasChild('testFolder'));
     }
 
     /**
