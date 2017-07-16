@@ -30,7 +30,7 @@ class Room{
     public function create($name, $pass){
         $this->checkConfigLimit($name);
 
-        $id = uniqid(dechex(mt_rand()));
+        $id = uniqid();
         $result = $this->createDir($id);
         if(!$result) throw new \RuntimeException('部屋データの初期化に失敗しました');
 
