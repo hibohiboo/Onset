@@ -17,16 +17,17 @@ if($nick === null || $roomId === null || $password === null){
 $room = new Room();
 
 if(!$room->isExist($roomId)){
-    Message::err('存在しない部屋です');
+    echo Message::err('存在しない部屋です');
     exit();
 }
 
 if(!$room->checkPassword($roomId, $password)){
-    Message::err('パスワードが違います');
+    echo Message::err('パスワードが違います');
     exit();
 }
 
 session_regenerate_id(true);
 $_SESSION['onsetId'] = dechex(mt_rand());
 $_SESSION['onsetRoom'] = $roomId;
+$_SESSION['onsetNick'] = $nick;
 echo Message::ok('ok');
